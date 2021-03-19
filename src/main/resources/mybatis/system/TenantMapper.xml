@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhangqiang.project.system.tenant.mapper.TenantMapper">
+    
+    <resultMap type="Tenant" id="TenantResult">
+        <result property="tenantCode"    column="tenant_code"    />
+        <result property="parentCode"    column="parent_code"    />
+        <result property="tenantName"    column="tenant_name"    />
+        <result property="tenantNickname"    column="tenant_nickname"    />
+        <result property="email"    column="email"    />
+        <result property="phonenumber"    column="phonenumber"    />
+        <result property="titlepath"    column="title_path"    />
+        <result property="bgpath"    column="bg_path"    />
+        <result property="titlename"    column="title_name"    />
+        <result property="bgname"    column="bg_name"    />
+        <result property="homepath"    column="home_path"    />
+        <result property="address"    column="address"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="tenantTerm"    column="tenantTerm"    />
+        <result property="tenantKey"    column="tenantKey"    />
+    </resultMap>
+
+    <sql id="selectTenantVo">
+        select tenant_code, parent_code, tenant_name, tenant_nickname, email, phonenumber, address, title_path, bg_path, title_name, bg_name, home_path, status, del_flag, create_by, create_time, update_by, update_time, remark, tenantTerm, tenantKey from sys_tenant
+    </sql>
+
+    <select id="selectTenantList" parameterType="Tenant" resultMap="TenantResult">
+        <include refid="selectTenantVo"/>
+        <where>  
+            <if test="tenantNickname != null  and tenantNickname != ''"> and tenant_nickname like concat('%', #{tenantNickname}, '%')</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="phonenumber != null  and phonenumber != ''"> and phonenumber = #{phonenumber}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="parentCode != null  and parentCode != '' and tenantCode != null and tenantCode != ''"> and (parent_code = #{parentCode} or tenant_code = #{tenantCode})</if>
+        </where>
+        order by create_time desc
+    </select>
+    
+    <select id="selectTenantById" parameterType="String" resultMap="TenantResult">
+        <include refid="selectTenantVo"/>
+        where tenant_code = #{tenantCode}
+    </select>
+
+    <select id="selectMaxCode" parameterType="String" resultType="String">
+		select max(tenant_code) from sys_tenant where status = '0'
+        <if test="parent_code != null and parent_code != ''">
+            AND parent_code = #{parent_code}
+        </if>
+	</select>
+
+    <insert id="insertTenant" parameterType="Tenant">
+        insert into sys_tenant
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            tenant_code,
+            <if test="parentCode != null  and parentCode != ''">parent_code,</if>
+            <if test="tenantName != null  and tenantName != ''">tenant_name,</if>
+            <if test="tenantNickname != null  and tenantNickname != ''">tenant_nickname,</if>
+            <if test="email != null  and email != ''">email,</if>
+            <if test="phonenumber != null  and phonenumber != ''">phonenumber,</if>
+            <if test="address != null  and address != ''">address,</if>
+            <if test="titlepath != null  and titlepath != ''">title_path,</if>
+            <if test="bgpath != null  and bgpath != ''">bg_path,</if>
+            <if test="titlename != null  and titlename != ''">title_name,</if>
+            <if test="bgname != null  and bgname != ''">bg_name,</if>
+            <if test="homepath != null  and homepath != ''">home_path,</if>
+            <if test="status != null  and status != ''">status,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="tenantTerm != null  and tenantTerm != ''">tenantTerm,</if>
+            <if test="tenantKey != null  and tenantKey != ''">tenantKey,</if>
+            update_time,
+            create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{tenantCode},
+            <if test="parentCode != null  and parentCode != ''">#{parentCode},</if>
+            <if test="tenantName != null  and tenantName != ''">#{tenantName},</if>
+            <if test="tenantNickname != null  and tenantNickname != ''">#{tenantNickname},</if>
+            <if test="email != null  and email != ''">#{email},</if>
+            <if test="phonenumber != null  and phonenumber != ''">#{phonenumber},</if>
+            <if test="address != null  and address != ''">#{address},</if>
+            <if test="titlepath != null  and titlepath != ''">#{titlepath},</if>
+            <if test="bgpath != null  and bgpath != ''">#{bgpath},</if>
+            <if test="titlename != null  and titlename != ''">#{titlename},</if>
+            <if test="bgname != null  and bgname != ''">#{bgname},</if>
+            <if test="homepath != null  and homepath != ''">#{homepath},</if>
+            <if test="status != null  and status != ''">#{status},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="tenantTerm != null  and tenantTerm != ''">#{tenantTerm},</if>
+            <if test="tenantKey != null  and tenantKey != ''">#{tenantKey},</if>
+            sysdate(),
+            sysdate()
+         </trim>
+    </insert>
+
+    <update id="updateTenant" parameterType="Tenant">
+        update sys_tenant
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tenantName != null  and tenantName != ''">tenant_name = #{tenantName},</if>
+            <if test="tenantNickname != null  and tenantNickname != ''">tenant_nickname = #{tenantNickname},</if>
+            <if test="email != null  and email != ''">email = #{email},</if>
+            <if test="phonenumber != null  and phonenumber != ''">phonenumber = #{phonenumber},</if>
+            <if test="address != null  and address != ''">address = #{address},</if>
+            <if test="titlepath != null  and titlepath != ''">title_path = #{titlepath},</if>
+            <if test="bgpath != null  and bgpath != ''">bg_path = #{bgpath},</if>
+            <if test="titlename != null  and titlename != ''">title_name = #{titlename},</if>
+            <if test="bgname != null  and bgname != ''">bg_name = #{bgname},</if>
+            <if test="homepath != null  and homepath != ''">home_path = #{homepath},</if>
+            <if test="status != null  and status != ''">status = #{status},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="tenantTerm != null  and tenantTerm != ''">tenantTerm = #{tenantTerm},</if>
+            <if test="tenantKey != null  and tenantKey != ''">tenantKey = #{tenantKey},</if>
+        </trim>
+        where tenant_code = #{tenantCode}
+    </update>
+
+    <delete id="deleteTenantById" parameterType="String">
+        delete from sys_tenant where tenant_code = #{tenantCode}
+    </delete>
+
+    <delete id="deleteTenantByIds" parameterType="String">
+        delete from sys_tenant where tenant_code in 
+        <foreach item="tenantCode" collection="array" open="(" separator="," close=")">
+            #{tenantCode}
+        </foreach>
+    </delete>
+
+</mapper>

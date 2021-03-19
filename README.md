@@ -3,35 +3,33 @@
 #### 介绍
 在若依开源未分离版的基础上增加租户概念，实现saas平台
 
+
 #### 软件架构
-软件架构说明
+在若依权限管理系统未分离版本上增加扩展功能   
+1.短信、邮箱服务  
+2.MQTT消息中间件  
+3.第三方缓存服务  
+4.扩展为SAAS平台，支持多租户管理
+
+####使用说明
+1.克隆本项目  
+2.执行init_sys.sql到mysql数据库  
+3.修改application-druid.yml里的数据库配置，改为你自己的  
+4.idea启动工程  
+  
+租户登陆地址：http://localhost:8088/sys/guest/login    
+账号密码：admin 111111  
+
+平台管理员登陆地址：http://localhost:8088/sys/sys/login  
+账号密码：admin admin123  
+
+####在线体验
+体验地址：http://118.89.90.121:8088/sys/guest/login  
+账号密码：admin 111111
 
 
-#### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+#### 链接
+RuoYi是一款基于SpringBoot+Bootstrap的极速后台开发框架。  
+RuoYi 官网地址：http://ruoyi.vip(opens new window)  
+RuoYi 在线文档：http://doc.ruoyi.vip  
+RuoYi 是一个 Java EE 企业级快速开发平台，基于经典技术组合（Spring Boot、Apache Shiro、MyBatis、Thymeleaf、Bootstrap），内置模块如：部门管理、角色用户、菜单及按钮授权、数据权限、系统参数、日志管理、通知公告等。在线定时任务配置；支持集群，支持多数据源，支持分布式事务。

@@ -1,0 +1,26 @@
+# 数据源配置
+spring:
+    # 邮箱模块
+    mail:
+        qq:
+            # JavaMailSender 邮件发送的配置
+            host: smtp.exmail.qq.com
+            #邮箱的授权码
+            username:
+            personal:
+            password:
+            auth: true
+            senable: true
+            required: true
+            encoding: UTF-8
+            port: 465
+    sms:
+        aliyun:
+            # 产品名称:云通信短信API产品,开发者无需替换
+            product: Dysmsapi
+            # 产品域名,开发者无需替换
+            domain: dysmsapi.aliyuncs.com
+            signName:
+            AccessKeyID:
+            AccessKeySecret:
+            template_vcode:

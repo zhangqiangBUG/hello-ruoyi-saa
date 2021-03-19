@@ -1,0 +1,90 @@
+# 数据源配置
+spring:
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        druid:
+            # 主库数据源
+            master:
+                url: jdbc:mysql://xxxxxx:3306/init_sys?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+                username: xxxxxx
+                password: xxxxxx
+            # 从库数据源
+            slave:
+                # 从数据源开关/默认关闭
+                enabled: false
+                url: 
+                username: 
+                password: 
+            # 初始连接数
+            initialSize: 5
+            # 最小连接池数量
+            minIdle: 10
+            # 最大连接池数量
+            maxActive: 20
+            # 配置获取连接等待超时的时间
+            maxWait: 60000
+            # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+            timeBetweenEvictionRunsMillis: 60000
+            # 配置一个连接在池中最小生存的时间，单位是毫秒
+            minEvictableIdleTimeMillis: 300000
+            # 配置一个连接在池中最大生存的时间，单位是毫秒
+            maxEvictableIdleTimeMillis: 900000
+            # 配置检测连接是否有效
+            validationQuery: SELECT 1 FROM DUAL
+            testWhileIdle: true
+            testOnBorrow: false
+            testOnReturn: false
+            webStatFilter: 
+                enabled: true
+                # 过滤监控请求
+                exclusions: /druid/*,*.js,*.gif,*.jpg,*.png,*.css,*.ico
+            statViewServlet:
+                enabled: true
+                # 设置白名单，不填则允许所有访问
+                allow:
+                # 设置黑名单，不填则允许所有访问
+                deny:
+                url-pattern: /druid/*
+                # 控制台管理用户名和密码
+                login-username: 
+                login-password: 
+            filter:
+                stat:
+                    enabled: true
+                    # 慢SQL记录
+                    log-slow-sql: true
+                    slow-sql-millis: 1000
+                    merge-sql: true
+                wall:
+                    config:
+                        multi-statement-allow: true
+
+# redis数据库连接配置(covert)
+redis:
+    # 地址
+    host: 192.168.1.14:6379
+    # 密码
+    password: 111111
+    # 超时时间
+    timeout: 1000
+    # 分配多少个jedis实例 -1不限制
+    # maxActive: -1
+    # 最大活动对象数
+    maxTotal: 10
+    # 最大空闲实例数
+    maxIdle: 5
+    # 最小能够保持idel状态的对象数
+    minIdle: 1
+    # (创建实例时)最大等待时间
+    maxWaitMillis: 5000
+    # (创建实例时)是否验证有效性
+    testOnBorrow: true
+    # 当调用return Object方法时，是否进行有效性检查
+    testOnReturn: true
+    # “空闲链接”检测线程，检测的周期，毫秒数。如果为负值，表示不运行“检测线程”。默认为-1.
+    timeBetweenEvictionRunsMillis: -1
+    # 向调用者输出“链接”对象时，是否检测它的空闲超时；
+    testWhileIdle: true
+    # 对于“空闲链接”检测线程而言，每次检测的链接资源的个数。默认为3.
+    numTestsPerEvictionRun: 3

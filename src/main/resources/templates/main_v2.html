@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('首页')" />
+</head>
+
+<body class="gray-bg" th:style="'background:url(' + @{${user.tenant.bgpath}}+ ') no-repeat;background-size:100% 100%;'" >
+    <div class="wrapper wrapper-content">
+
+        <div class="row">
+            <h1>默认首页</h1>
+        </div>
+        
+        <div class="row">
+
+        </div>
+        
+        <div class="row">
+
+         </div>
+      </div>
+    </div>
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script type="text/javascript">
+
+    </script>
+</body>
+</html>

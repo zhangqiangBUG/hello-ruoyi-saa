@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhangqiang.project.system.notice.mapper.UserNoticeMapper">
+    
+    <resultMap type="UserNotice" id="UserNoticeResult">
+        <result property="noticeId"    column="notice_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="type"    column="type"    />
+        <result property="state"    column="state"    />
+    </resultMap>
+
+    <sql id="selectUserNoticeVo">
+        select notice_id, user_id, type, state from sys_user_notice
+    </sql>
+
+    <select id="selectUserNoticeList" parameterType="UserNotice" resultMap="UserNoticeResult">
+        <include refid="selectUserNoticeVo"/>
+        <where>  
+            <if test="noticeId != null "> and notice_id = #{noticeId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="state != null "> and state = #{state}</if>
+        </where>
+    </select>
+    
+    <select id="selectUserNoticeById" parameterType="Long" resultMap="UserNoticeResult">
+        <include refid="selectUserNoticeVo"/>
+        where notice_id = #{noticeId}
+    </select>
+        
+    <insert id="insertUserNotice" parameterType="UserNotice">
+        insert into sys_user_notice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="noticeId != null ">notice_id,</if>
+            <if test="userId != null ">user_id,</if>
+            <if test="type != null ">type,</if>
+            <if test="state != null ">state,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="noticeId != null ">#{noticeId},</if>
+            <if test="userId != null ">#{userId},</if>
+            <if test="type != null ">#{type},</if>
+            <if test="state != null ">#{state},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUserNotice" parameterType="UserNotice">
+        update sys_user_notice
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="state != null ">state = #{state},</if>
+        </trim>
+        where type = '0' and state = '0' and user_id = #{userId}
+    </update>
+
+    <delete id="deleteUserNoticeById" parameterType="Long">
+        delete from sys_user_notice where notice_id = #{noticeId}
+    </delete>
+
+    <delete id="deleteUserNoticeByIds" parameterType="String">
+        delete from sys_user_notice where notice_id in 
+        <foreach item="noticeId" collection="array" open="(" separator="," close=")">
+            #{noticeId}
+        </foreach>
+    </delete>
+    
+</mapper>

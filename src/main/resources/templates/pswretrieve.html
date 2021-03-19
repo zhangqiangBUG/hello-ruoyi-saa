@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>登录后台管理系统</title>
+    <meta name="description" content="后台管理框架">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link href="../static/css/login.css" th:href="@{/css/login.css}" rel="stylesheet"/>
+    <link href="../static/doseng/css/doseng-ui.css" th:href="@{/doseng/css/doseng-ui.css?v=4.2.0}" rel="stylesheet"/>
+    <!-- 360浏览器急速模式 -->
+    <meta name="renderer" content="webkit">
+    <!-- 避免IE使用兼容模式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="../static/doseng.ico" th:href="@{/doseng.ico}"/>
+    <style type="text/css">label.error {
+        position: inherit;
+    }</style>
+    <script>
+        // (function(){
+        //     window.alert = function(name){
+        //         var iframe = document.createElement("IFRAME");
+        //         iframe.style.display="none";
+        //         iframe.setAttribute("src", 'data:text/plain');
+        //         document.documentElement.appendChild(iframe);
+        //         window.frames[0].window.alert(name);
+        //         iframe.parentNode.removeChild(iframe);
+        //     }
+        // })();
+        if (window.top !== window.self) {
+            alert('未登录或登录超时,请重新登录.');
+            top.location.reload();
+        }
+        ;
+    </script>
+</head>
+<body class="signin">
+<div class="signinpanel">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-6">
+            <form>
+                <h1 class="no-margins">找回密码</h1>
+                <input type="text" name="mail" class="form-control uname" placeholder="请输入邮箱" value=""/>
+                <button type="button" class="btn btn-success btn-block" th:onclick="pswretrieve()"
+                        data-loading="正在提交，请稍后...">提交
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class="signup-footer">
+        <div class="pull-right">
+            &copy; 2020 All Rights Reserved. <br>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript"> var ctx = [[@{
+    /}]]; var captchaType = [[${captchaType}]]; var portalCode = [[${portalCode}]]</script>
+<!-- 全局js -->
+<script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<!-- 验证插件 -->
+<script src="../static/ajax/libs/validate/jquery.validate.min.js"
+        th:src="@{/ajax/libs/validate/jquery.validate.min.js}"></script>
+<script src="../static/ajax/libs/validate/messages_zh.min.js"
+        th:src="@{/ajax/libs/validate/messages_zh.min.js}"></script>
+<script src="../static/ajax/libs/layer/layer.min.js" th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+<script src="../static/ajax/libs/blockUI/jquery.blockUI.js" th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
+<script src="../static/doseng/js/doseng-ui.js" th:src="@{/doseng/js/doseng-ui.js?v=4.2.0}"></script>
+<script>
+    var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"); //正则表达式
+
+    function pswretrieve() {
+        var mail = $.common.trim($("input[name='mail']").val());
+        if (!mail || !reg.test(mail)) {
+            $.modal.msg("邮箱格式错误！");
+            return;
+        }
+        $.modal.loading("正在提交");
+        $.ajax({
+            type: "post",
+            url: ctx + "hotel/forgotpsw/" + portalCode + "/pswretrieve",
+            data: {mail: mail},
+            success: function (r) {
+                $.modal.closeLoading();
+                if (r.code == 0) {
+                    $.modal.msg(r.msg);
+                    setTimeout("returnLogin()", 1000);
+                } else {
+                    $.modal.msg(r.msg);
+                }
+            }
+        });
+    };
+
+    function returnLogin() {
+        location.href = ctx + portalCode + '/login';
+    }
+</script>
+
+<!--[if IE]>
+<script>
+    $(
+            function () {
+                // debugger;
+
+                $(
+                        function () {
+
+                            // 判断浏览器是否支持 placeholder
+                            if (!placeholderSupport()) {
+                                $('[placeholder]').each(
+                                        function () {
+                                            $(this)
+                                                    .focus(
+                                                            function () {
+                                                                var input = $(this);
+                                                                if (input.val() == input.attr('placeholder')) {
+                                                                    input.val('');
+                                                                    input.removeClass('placeholder');
+                                                                }
+                                                            }
+                                                    )
+                                                    .blur(
+                                                            function () {
+                                                                var input = $(this);
+                                                                if (input.val() == '' || input.val() == input.attr('placeholder')) {
+                                                                    input.addClass('placeholder');
+                                                                    input.val(input.attr('placeholder'));
+
+                                                                    if (input.attr('type') === 'password') {
+                                                                        input.attr('type', 'text');
+                                                                        $('[id="psweye"]').hide();
+                                                                    }
+                                                                }
+                                                            }
+                                                    )
+                                                    .bind(
+                                                            'input propertychange',
+                                                            function () {
+                                                                var input = $(this);
+                                                                if (input.attr('type') === 'text' && input.attr('name') === 'password') {
+                                                                    input.attr('type', 'password');
+                                                                    $('[id="psweye"]').show();
+                                                                } else {
+                                                                    if (input.attr('type') === 'text') {
+                                                                        $('[id="psweye"]').hide();
+                                                                    }
+                                                                }
+                                                            }
+                                                    )
+                                                    .blur();
+                                        }
+                                )
+                            }
+                        }
+                );
+            }
+    );
+
+    function placeholderSupport() {
+        return 'placeholder' in document.createElement('input');
+    }
+</script>
+<![endif]-->
+</body>
+</html>
