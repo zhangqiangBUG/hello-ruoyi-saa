@@ -30,6 +30,6 @@
 
 #### 链接
 RuoYi是一款基于SpringBoot+Bootstrap的极速后台开发框架。  
-RuoYi 官网地址：http://ruoyi.vip(opens new window)  
+RuoYi 官网地址：http://ruoyi.vip  
 RuoYi 在线文档：http://doc.ruoyi.vip  
 RuoYi 是一个 Java EE 企业级快速开发平台，基于经典技术组合（Spring Boot、Apache Shiro、MyBatis、Thymeleaf、Bootstrap），内置模块如：部门管理、角色用户、菜单及按钮授权、数据权限、系统参数、日志管理、通知公告等。在线定时任务配置；支持集群，支持多数据源，支持分布式事务。
