@@ -23,7 +23,7 @@
 平台管理员登陆地址：http://localhost:8088/sys/sys/login  
 账号密码：admin admin123  
 
-#### 在线体验
+#### 在线体验（已过期）
 体验地址：http://118.89.90.121:8088/sys/guest/login  
 账号密码：admin 111111
 
